@@ -24,7 +24,7 @@ class Simplex(object):
 
         view.print_table_iter(self.coeff_matrix, self.basic_vars[1:], 'Quadro Inicial')
         self.delete_r_vars()
-        view.print_table_iter(self.coeff_matrix, self.basic_vars[1:], 'Remocao de variaveis artificiais')
+        view.print_table_iter(self.coeff_matrix, self.basic_vars[1:], 'Iter 1 - Remocao de variaveis artificiais')
 
         if 'min' in self.objective.lower():
             self.solution = self.objective_minimize()
@@ -170,7 +170,7 @@ class Simplex(object):
         key_column = max_index(self.coeff_matrix[0])
         condition = self.coeff_matrix[0][key_column] > 0
 
-        counter = 1
+        counter = 2
 
         while condition is True:
 
@@ -182,11 +182,15 @@ class Simplex(object):
             self.normalize_to_pivot(key_row, pivot)
             self.make_key_column_zero(key_column, key_row)
 
-            view.print_table_iter(self.coeff_matrix, backup_basic_vars[1:], 'Iteracao {}'.format(counter), 
+            view.print_table_iter(self.coeff_matrix, backup_basic_vars[1:], 'Iter {}'.format(counter), 
                                   pivot=[pivot, key_row, key_column])
 
             key_column = max_index(self.coeff_matrix[0])
             condition = self.coeff_matrix[0][key_column] > 0
+
+            if condition is False:
+                view.print_table_iter(self.coeff_matrix, backup_basic_vars[1:], 'Iter {}'.format(counter), 
+                                  pivot=[self.coeff_matrix[key_row][key_column], key_row, key_column], ptable=False)
 
             counter += 1
 
@@ -231,6 +235,10 @@ class Simplex(object):
 
             key_column = min_index(self.coeff_matrix[0])
             condition = self.coeff_matrix[0][key_column] < 0
+
+            if condition is False:
+                view.print_table_iter(self.coeff_matrix, backup_basic_vars[1:], 'Iter {}'.format(counter), 
+                                  pivot=[self.coeff_matrix[key_row][key_column], key_row, key_column], ptable=False)
 
             counter += 1
 

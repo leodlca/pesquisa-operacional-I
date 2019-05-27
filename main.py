@@ -59,7 +59,7 @@ def solver(problem):
         'min': 'minimize'
     }
 
-    objective = (map_objective[problem['problem_type']], equation_to_str(problem['coef_obj']))
+    objective = (map_objective[problem['type']], equation_to_str(problem['coef_obj']))
     constraints = [equation_to_str(x['coefs'], x['type'], x['independent']) for x in problem['restrictions']]
     system = Simplex(num_vars=problem['n_var'], constraints=constraints, objective_function=objective)
 
@@ -82,11 +82,11 @@ while True:
             view.error('Esse arquivo ja existe')
 
         n_var = int(view.get_file_creation('Numero de variaveis (ilimitado): '))
-        if 0 <= n_var:
+        if 0 >= n_var:
             view.error('Numero menor ou igual a 0')
 
         n_rest = int(view.get_input_nl('Numero de restricoes (ilimitado): '))
-        if 0 <= n_rest:
+        if 0 >= n_rest:
             view.error('Numero menor ou igual a 0')
 
         ptype = view.get_input_nl('Tipo de problema (max/min): ').lower()

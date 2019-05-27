@@ -126,8 +126,32 @@ def success_message(_str):
 
 def print_file(problem):
     header(mode='Exibindo configuracoes do problema')
-    pprint(problem)
+    print('* Numero de variaveis = {}'.format(problem['n_var']))
+    print('* Numero de restricoes = {}'.format(problem['n_rest']))
     print()
+
+    map_type = {
+        '==': '=',
+        '>=': '>=',
+        '<=': '<='
+    }
+
+    print('* Objetivo')
+    obj_str = '{} z = '.format(problem['type'])
+    for i, coef in enumerate(problem['coef_obj']):
+        obj_str += str(coef) + '*x' + str(i+1) + ' '
+    print(obj_str)
+    print()
+
+    print('* Restricoes')
+    for restriction in problem['restrictions']:
+        rest_str = ''
+        for i, coef in enumerate(restriction['coefs']):
+            rest_str += str(coef) + '*x' + str(i+1) + ' '
+        rest_str += map_type[restriction['type']] + ' ' + str(restriction['independent'])
+        print(rest_str)
+    print()
+
     hold()
     clear()
     
@@ -139,27 +163,30 @@ def get_end():
     return _.strip()
     
 
-def print_table_iter(m, bv, title, pivot=None):
-    M = []
-    h = ['Base'] + ['x' + str(x) for x in range(len(m[0])-1)] + ['Solucao']
+def print_table_iter(m, bv, title, pivot=None, ptable=True):
+    if ptable:
+        M = []
+        h = ['Base'] + ['x' + str(x) for x in range(len(m[0])-1)] + ['Solucao']
 
-    for i in range(len(m)):
-        if i == 0:
-            M.append(['z'])
-        else:
-            M.append(['x' + str(bv[i-1] + 1)])
-        for j in range(len(m[i])):
-            M[i].append(float(m[i][j]))
+        for i in range(len(m)):
+            if i == 0:
+                M.append(['z'])
+            else:
+                M.append(['x' + str(bv[i-1] + 1)])
+            for j in range(len(m[i])):
+                M[i].append(float(m[i][j]))
 
-    sepbar()
-    bcenter(title)
-    sepbar()
     if pivot is not None:
+        print('* Pivo: {}, linha: {}, coluna: {}'.format(float(pivot[0]), pivot[1]+1, pivot[2]+1))
         print()
-        print('* Pivo: {}, linha: {}, coluna: {}'.format(pivot[0], pivot[1]+1, pivot[2]+1))
-    print()
-    print(tabulate(M, headers=h))
-    print()
+
+    if ptable:
+        sepbar()
+        bcenter(title)
+        sepbar()    
+        print()
+        print(tabulate(M, headers=h))
+        print()
 
 def print_final_results(solution, optimal):
     sepbar()
