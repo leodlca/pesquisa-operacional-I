@@ -19,7 +19,7 @@ class Simplex(object):
 
         for i in self.basic_vars:
             if i > r_index:
-                view.error('Nao foi possivel encontrar uma solucao para o problema')
+                view.error('Problema insoluvel')
 
 
         view.print_table_iter(self.coeff_matrix, self.basic_vars[1:], 'Quadro Inicial')
@@ -125,7 +125,7 @@ class Simplex(object):
                     min_val = val
                     min_i = i
         if min_val == float("inf"):
-            view.error('Nao foi possivel encontrar uma solucao para o problema')
+            view.error('Problema insoluvel')
         if min_val == 0:
             pass #warn("Dengeneracy")
         return min_i
