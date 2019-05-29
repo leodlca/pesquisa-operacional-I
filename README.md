@@ -11,3 +11,9 @@
 4. Navegue até o diretório onde os scripts se encontram com o comando `cd`.
 5. Execute o script com o comando `python3 main.py` ou `python main.py` 
 (o segundo pode apresentar erros caso você possua mais de uma versão do python instalado na sua máquina).
+
+## Testes
+1. Para executar o teste com o objetivo de maximizar, use o arquivo `test_max`.
+2. Para executar o teste com o objetivo de minimizar, use o arquivo `test_min`.
+3. Para executar o teste que deve emitir o erro `Problema insoluvel`, use o arquivo `test_err`.
+4. 
