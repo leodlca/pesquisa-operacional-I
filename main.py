@@ -136,6 +136,6 @@ while True:
     solution = solver(problem)
     view.print_final_results(solution[0], solution[1])
 
-    if 'quit' in view.get_end().lower():
+    if 'q' in view.get_end().lower():
         break
 
